@@ -1,0 +1,23 @@
+# Frontend
+/frontend/node_modules
+/frontend/dist
+/frontend/.vite
+
+# Backend
+/backend/tmp
+/backend/*.log
+/backend/build-errors.log
+
+# Environment
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
