@@ -27,11 +27,27 @@ pkill -f "vite"
 
 ## Environment Variables
 
+The following environment variables are automatically provided by Tesslate Studio:
+
+```env
+VITE_BASE_PATH=/preview/user1-project5  # Auto-generated path prefix for routing
+NODE_ENV=development                     # Development mode
+PORT=5173                                # Frontend server port
+VITE_HMR_PROTOCOL=ws                     # HMR WebSocket protocol (ws/wss)
+VITE_HMR_PORT=80                         # HMR WebSocket port (80/443)
+CHOKIDAR_USEPOLLING=true                 # File watching in Docker
+CHOKIDAR_INTERVAL=1000                   # Polling interval
+```
+
+You can also define custom variables:
+
 ```env
 VITE_API_URL=http://localhost:8080
 GO_ENV=development
 PORT=8080
 ```
+
+**Note**: `VITE_BASE_PATH` is automatically set by Tesslate and used by `vite.config.ts` for the `base` configuration. This allows your Vite app to work correctly when deployed under a path prefix.
 
 ## Project Structure
 
