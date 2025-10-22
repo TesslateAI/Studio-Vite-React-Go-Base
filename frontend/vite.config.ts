@@ -9,6 +9,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     strictPort: true,
+    allowedHosts: ['.tesslate.com', 'localhost', '.studio-test.tesslate.com'],
     proxy: {
       // Match /api with or without base path prefix
       '^(/preview/[^/]+)?/api': {
