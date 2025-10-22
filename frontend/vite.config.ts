@@ -10,9 +10,15 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
-      '/api': {
+      // Match /api with or without base path prefix
+      '^(/preview/[^/]+)?/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
+        rewrite: (path) => {
+          // Remove base path prefix but keep /api
+          // e.g., /preview/user5-project18/api/health -> /api/health
+          return path.replace(/^\/preview\/[^/]+/, '')
+        },
       },
     },
     hmr: {

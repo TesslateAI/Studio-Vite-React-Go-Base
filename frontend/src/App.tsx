@@ -6,10 +6,17 @@ function App() {
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Get the base path from the HTML base tag or environment
+  const getBasePath = () => {
+    const base = document.querySelector('base')?.getAttribute('href') || import.meta.env.BASE_URL || '/'
+    return base.endsWith('/') ? base.slice(0, -1) : base
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/health')
+        const basePath = getBasePath()
+        const response = await fetch(`${basePath}/api/health`)
         const data = await response.json()
         setMessage(data.message)
         setLoading(false)
@@ -25,86 +32,60 @@ function App() {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch('/api/items')
+      const basePath = getBasePath()
+      const response = await fetch(`${basePath}/api/items`)
       const data = await response.json()
-      setItems(data.items)
+      setItems(data.items || [])
     } catch (error) {
       console.error('Failed to fetch items:', error)
+      setItems([])
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+    <div className="min-h-screen bg-white py-8 px-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Vite + React + Go
           </h1>
-          <p className="text-xl text-gray-600">
-            Built with Tesslate Studio
+          <p className="text-gray-600">
+            Fullstack template with separate frontend and backend
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-xl p-8 mb-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-4">Backend Connection</h2>
-            {loading ? (
-              <p className="text-gray-500">Connecting to backend...</p>
-            ) : (
-              <p className="text-green-600 font-medium">{message}</p>
-            )}
-          </div>
+        <div className="bg-gray-50 rounded-lg p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3">Backend Status</h2>
+          {loading ? (
+            <p className="text-gray-500">Connecting to backend...</p>
+          ) : (
+            <p className="text-green-600 font-medium">{message}</p>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <div className="text-3xl mb-3">⚡</div>
-            <h3 className="text-lg font-semibold mb-2">Vite Frontend</h3>
-            <p className="text-gray-600 text-sm">
-              Lightning-fast HMR and instant server start
-            </p>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <div className="text-3xl mb-3">🔷</div>
-            <h3 className="text-lg font-semibold mb-2">Go Backend</h3>
-            <p className="text-gray-600 text-sm">
-              High-performance compiled Go API with Chi router
-            </p>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <div className="text-3xl mb-3">🔄</div>
-            <h3 className="text-lg font-semibold mb-2">Hot Reload</h3>
-            <p className="text-gray-600 text-sm">
-              Both frontend and backend reload automatically
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h2 className="text-2xl font-semibold mb-4">API Testing</h2>
+        <div className="bg-gray-50 rounded-lg p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Test API</h2>
           <button
             onClick={fetchItems}
-            className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors"
           >
-            Fetch Items from API
+            Fetch Items from Backend
           </button>
 
           {items.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Items:</h3>
-              <pre className="bg-gray-50 p-4 rounded-lg overflow-auto">
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-gray-700 mb-2">Response:</p>
+              <pre className="bg-white p-3 rounded border border-gray-200 text-sm overflow-auto">
                 {JSON.stringify(items, null, 2)}
               </pre>
             </div>
           )}
+        </div>
 
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-sm text-gray-600">
-              Backend API running on Go with Chi router
-            </p>
-          </div>
+        <div className="text-center text-sm text-gray-500">
+          <p>
+            Frontend: Vite + React (Port 5173) | Backend: Go + Air (Port 8080)
+          </p>
         </div>
       </div>
     </div>
