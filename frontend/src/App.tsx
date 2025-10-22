@@ -81,12 +81,6 @@ function App() {
             </div>
           )}
         </div>
-
-        <div className="text-center text-sm text-gray-500">
-          <p>
-            Frontend: Vite + React (Port 5173) | Backend: Go + Air (Port 8080)
-          </p>
-        </div>
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ High-performance fullstack template with Vite + React for the frontend and Go wi
 **Start Command**:
 ```bash
 # Start backend first (in background)
-cd backend && go mod download && air &
+cd backend && go mod tidy && go mod download && air &
 
 # Start frontend
 cd frontend && npm install && npm run dev -- --host 0.0.0.0 --port 5173
