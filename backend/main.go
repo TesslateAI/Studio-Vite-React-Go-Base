@@ -39,6 +39,7 @@ func main() {
 	// Routes
 	r.Get("/", handleRoot)
 	r.Get("/health", handleHealth)
+	r.Get("/api/health", handleHealth)
 	r.Get("/api/items", handleGetItems)
 	r.Post("/api/items", handleCreateItem)
 
