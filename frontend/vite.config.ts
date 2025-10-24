@@ -3,23 +3,19 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  // Base path for subpath deployments (e.g., /preview/user1-project5/)
-  base: process.env.VITE_BASE_PATH || '/',
+  // Subdomain routing - no base path needed
+  base: '/',
   server: {
     host: '0.0.0.0',
     port: 5173,
     strictPort: true,
     allowedHosts: ['.tesslate.com', 'localhost', '.studio-test.tesslate.com'],
     proxy: {
-      // Match /api with or without base path prefix
-      '^(/preview/[^/]+)?/api': {
+      // Proxy /api requests to backend
+      '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => {
-          // Remove base path prefix but keep /api
-          // e.g., /preview/user5-project18/api/health -> /api/health
-          return path.replace(/^\/preview\/[^/]+/, '')
-        },
+        // Keep /api prefix for Go backend
       },
     },
     hmr: {
